@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2bc52c28-34c3-45ca-83ee-b3fe988b73fc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/com/stackroute/datamunger/DataMunger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/stackroute/datamunger/DataMunger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/stackroute/datamunger/test/DataMungerTestTask4.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/stackroute/datamunger/test/DataMungerTestTask4.java" afterDir="false" />
-    </list>
+    <list default="true" id="2bc52c28-34c3-45ca-83ee-b3fe988b73fc" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -134,7 +131,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1536685933816" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1536686031504" />
     <property name="last_opened_file_path" value="$USER_HOME$/Downloads/junit-4.11.jar!/" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
@@ -254,9 +251,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="DataMungerTestTask4 - 2018.09.11 at 22h 17m 29s.xml">
-      <configuration name="DataMungerTestTask4" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="DataMungerTestTask4 - 2018.09.11 at 22h 20m 22s.xml">
       <configuration name="DataMungerTestTask4" configurationId="JUnit" />
     </history-entry>
@@ -282,6 +276,9 @@
       <configuration name="DataMungerTest" configurationId="JUnit" />
     </history-entry>
     <history-entry file="DataMungerTest - 2018.09.11 at 22h 40m 35s.xml">
+      <configuration name="DataMungerTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="DataMungerTest - 2018.09.11 at 22h 42m 16s.xml">
       <configuration name="DataMungerTest" configurationId="JUnit" />
     </history-entry>
   </component>
