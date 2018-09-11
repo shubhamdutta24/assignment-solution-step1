@@ -62,7 +62,7 @@ private static DataMunger dataMunger;
 		assertEquals("testGetAggregateFunctions() : Aggregate function does not return the correct values",
 				new String[]{"count(city)","sum(win_by_runs)","min(win_by_runs)","max(win_by_runs)","avg(win_by_runs)"},
 				dataMunger.getAggregateFunctions("select count(city),sum(win_by_runs),min(win_by_runs),max(win_by_runs),avg(win_by_runs) from ipl.csv"));
-		
+
 		assertEquals("testGetAggregateFunctions() : Aggregate function does not return the correct values",
 				new String[]{"count(city)"},
 				dataMunger.getAggregateFunctions("select count(city),win_by_runs from ipl.csv where season > 2014 group by win_by_runs"));

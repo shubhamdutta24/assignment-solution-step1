@@ -26,6 +26,8 @@ package com.stackroute.datamunger;
  * the test cases together.
  */
 
+import java.util.regex.Pattern;
+
 public class DataMunger {
 
 	/*
@@ -85,6 +87,8 @@ public class DataMunger {
 		queryString = queryString.toLowerCase();
 
 		String[] resultString = queryString.split(" where ");
+		resultString = resultString[0].split(" group ");
+		resultString = resultString[0].split(" order ");
 
 		return resultString[0];
 	}
@@ -132,27 +136,28 @@ public class DataMunger {
 	public String getConditionsPartQuery(String queryString) {
 
 		String conditions = "";
-		int resultArrLength;
+		int queryArrLength;
 		boolean flag = false;
 
 		queryString = queryString.toLowerCase();
 
-		String[] resultArr = queryString.split(" ");
-		resultArrLength = resultArr.length;
+		String[] querryArr = queryString.split(" ");
+		queryArrLength = querryArr.length;
 
-		for (int i = 0; i < resultArrLength; i++) {
+		for (int i = 0; i < queryArrLength; i++) {
 			if (flag) {
-				if (resultArr[i].equals("group") || resultArr[i].equals("order"))
+				if (querryArr[i].equals("group") || querryArr[i].equals("order"))
 					return conditions;
 				else {
 
 					if (conditions.equals(""))
-						conditions = conditions + resultArr[i];
+						conditions = conditions + querryArr[i];
 					else
-						conditions = conditions + " " + resultArr[i];
+						conditions = conditions + " " + querryArr[i];
 				}
-			}else if (resultArr[i].equals("where")) flag = true;
+			}else if (querryArr[i].equals("where")) flag = true;
 		}
+		if (conditions.equals("")) return null;
 
 		return conditions;
 	}
@@ -175,33 +180,33 @@ public class DataMunger {
 	public String[] getConditions(String queryString) {
 
 		String conditions = "";
-		int resultArrLength;
+		int queryArrLength;
 		boolean flag = false;
 		boolean multiCondition = false;
 
 		queryString = queryString.toLowerCase();
 
-		String[] resultArr = queryString.split(" ");
-		resultArrLength = resultArr.length;
+		String[] querryArr = queryString.split(" ");
+		queryArrLength = querryArr.length;
 
-		for (int i = 0; i < resultArrLength; i++) {
+		for (int i = 0; i < queryArrLength; i++) {
 			if (flag) {
-				if (resultArr[i].equals("group") || resultArr[i].equals("order"))
+				if (querryArr[i].equals("group") || querryArr[i].equals("order"))
 					break;
 				else {
 
 					if (conditions.equals("") || multiCondition) {
-						conditions = conditions + resultArr[i];
+						conditions = conditions + querryArr[i];
 						multiCondition = false;
 					} else {
-						if (resultArr[i].equals("and") || resultArr[i].equals("or")) {
+						if (querryArr[i].equals("and") || querryArr[i].equals("or")) {
 							conditions = conditions + ",";
 							multiCondition = true;
 						} else
-							conditions = conditions + " " + resultArr[i];
+							conditions = conditions + " " + querryArr[i];
 					}
 				}
-			}else if (resultArr[i].equals("where")) flag = true;
+			}else if (querryArr[i].equals("where")) flag = true;
 		}
 
 		String[] conditionsArr;
@@ -227,25 +232,38 @@ public class DataMunger {
 
 	public String[] getLogicalOperators(String queryString) {
 
-		/*queryString = queryString.toLowerCase();
-		int querryArrLength;
+		queryString = queryString.toLowerCase();
+		String[] conditions = queryString.split(" where ");
+		if (conditions.length == 1) return null;
+		conditions = conditions[1].split("group");
+		conditions = conditions[0].split("order");
+		queryString = conditions[0];
+		String[] arrWords = queryString.split(" ");
+		int flag = 0;
+		for (int i = 0; i < arrWords.length; i++){
+			if (flag == 0){
+				if (arrWords[i].equals("and"))
+					flag = 1;
+				else if (arrWords[i].equals("or"))
+					flag = 2;
+				else;
+			}else if ((flag == 1) && arrWords[i].equals("or")){
+				flag = 3;
+				break;
+			}else if ((flag == 2) && arrWords[i].equals("and")){
+				flag = 3;
+				break;
+			}
+		}
+		String[] str1 = {"and"};
+		String[] str2 = {"or"};
+		String[] str3 = {"and","or"};
 
-		String[] querryArr = queryString.split(" where ");
-		querryArrLength = querryArr.length;
-		if (querryArrLength == 1)
-			return null;
-		else{
-			String andOr = "";
-			querryArr = querryArr[1].split("group");
-			querryArr = querryArr[0].split("order");
-			querryArr = querryArr[0].split(" ");
-			querryArrLength = querryArr.length;
-			for (int i = 0; i < querryArrLength; i++)
-				if (querryArr[i].equals("and") || querryArr[i].equals("or"))
-					andOr = andOr + " " + querryArr[i];
-			String[] andOrArr = andOr.split(" ");
-			return andOrArr;
-		}*/
+
+		if (flag == 1) return str1;
+		else if (flag == 2) return str2;
+		else if (flag == 3) return str3;
+
 		return null;
 	}
 
@@ -259,7 +277,12 @@ public class DataMunger {
 
 	public String[] getOrderByFields(String queryString) {
 
-		return null;
+		queryString = queryString.toLowerCase();
+		String[] orderBy = queryString.split(" order by ");
+		if (orderBy.length == 1) return null;
+		orderBy = orderBy[1].split(",");
+
+		return orderBy;
 	}
 
 	/*
@@ -273,7 +296,13 @@ public class DataMunger {
 
 	public String[] getGroupByFields(String queryString) {
 
-		return null;
+		queryString = queryString.toLowerCase();
+		String[] groupBy = queryString.split(" group by ");
+		if (groupBy.length == 1) return null;
+		groupBy = groupBy[1].split(" order by ");
+		groupBy = groupBy[0].split(",");
+
+		return groupBy;
 	}
 
 	/*
@@ -288,7 +317,28 @@ public class DataMunger {
 
 	public String[] getAggregateFunctions(String queryString) {
 
-		return null;
+		queryString = queryString.toLowerCase();
+
+		//split using 'from'
+		String[] splitFrom = queryString.split("from");
+		//separate aggregate block from 'select'
+		String[] aggregate = splitFrom[0].split("select");
+		//clean the preceding and trailing spaces
+		String aggregates = aggregate[1].trim();
+
+		if (aggregates.equals("*")) return null;
+
+		//making array of aggregate values
+		String[] arrAggregate = aggregates.split(",");
+		aggregates = "";
+		// removing undesired content
+		for (String a : arrAggregate){
+			if (a.endsWith(")"))
+				aggregates = aggregates + a + " ";
+		}
+		//forming array of strings in order to return;
+		arrAggregate = aggregates.split(" ");
+		return arrAggregate;
 	}
 
 }
