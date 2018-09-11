@@ -34,8 +34,13 @@ public class DataMunger {
 	 */
 
 	public String[] getSplitStrings(String queryString) {
+		// Implementation
 
-		return null;
+		queryString = queryString.toLowerCase();
+
+		String[] resultString = queryString.split(" ");
+
+		return resultString;
 	}
 
 	/*
@@ -47,6 +52,20 @@ public class DataMunger {
 	 */
 
 	public String getFileName(String queryString) {
+		//Implementation
+
+		queryString.toLowerCase();
+		int resultLength;
+
+		String[] resultString = queryString.split(" ");
+		resultLength = resultString.length;
+
+		for (int i = 0; i < resultLength; i++){
+			if (resultString[i].equals("from")) {
+				System.out.println(resultString[i+1]);
+				return resultString[i+1];
+			}
+		}
 
 		return null;
 	}
@@ -63,7 +82,11 @@ public class DataMunger {
 	
 	public String getBaseQuery(String queryString) {
 
-		return null;
+		queryString = queryString.toLowerCase();
+
+		String[] resultString = queryString.split(" where ");
+
+		return resultString[0];
 	}
 
 	/*
@@ -80,6 +103,19 @@ public class DataMunger {
 	
 	public String[] getFields(String queryString) {
 
+		int resultLength;
+		queryString = queryString.toLowerCase();
+
+		String[] resultString = queryString.split(" ");
+		resultLength = resultString.length;
+
+		for (int i = 0; i < resultLength; i++)
+			if (resultString[i].equals("select")) {
+				String[] fields = resultString[i+1].split(",");
+				return fields;
+			}
+
+
 		return null;
 	}
 
@@ -95,7 +131,30 @@ public class DataMunger {
 	
 	public String getConditionsPartQuery(String queryString) {
 
-		return null;
+		String conditions = "";
+		int resultArrLength;
+		boolean flag = false;
+
+		queryString = queryString.toLowerCase();
+
+		String[] resultArr = queryString.split(" ");
+		resultArrLength = resultArr.length;
+
+		for (int i = 0; i < resultArrLength; i++) {
+			if (flag) {
+				if (resultArr[i].equals("group") || resultArr[i].equals("order"))
+					return conditions;
+				else {
+
+					if (conditions.equals(""))
+						conditions = conditions + resultArr[i];
+					else
+						conditions = conditions + " " + resultArr[i];
+				}
+			}else if (resultArr[i].equals("where")) flag = true;
+		}
+
+		return conditions;
 	}
 
 	/*
@@ -115,7 +174,44 @@ public class DataMunger {
 
 	public String[] getConditions(String queryString) {
 
-		return null;
+		String conditions = "";
+		int resultArrLength;
+		boolean flag = false;
+		boolean multiCondition = false;
+
+		queryString = queryString.toLowerCase();
+
+		String[] resultArr = queryString.split(" ");
+		resultArrLength = resultArr.length;
+
+		for (int i = 0; i < resultArrLength; i++) {
+			if (flag) {
+				if (resultArr[i].equals("group") || resultArr[i].equals("order"))
+					break;
+				else {
+
+					if (conditions.equals("") || multiCondition) {
+						conditions = conditions + resultArr[i];
+						multiCondition = false;
+					} else {
+						if (resultArr[i].equals("and") || resultArr[i].equals("or")) {
+							conditions = conditions + ",";
+							multiCondition = true;
+						} else
+							conditions = conditions + " " + resultArr[i];
+					}
+				}
+			}else if (resultArr[i].equals("where")) flag = true;
+		}
+
+		String[] conditionsArr;
+		if (conditions.equals(""))
+			conditionsArr = null;
+		else
+			conditionsArr = conditions.split(",");
+
+
+		return conditionsArr;
 	}
 
 	/*
@@ -131,6 +227,25 @@ public class DataMunger {
 
 	public String[] getLogicalOperators(String queryString) {
 
+		/*queryString = queryString.toLowerCase();
+		int querryArrLength;
+
+		String[] querryArr = queryString.split(" where ");
+		querryArrLength = querryArr.length;
+		if (querryArrLength == 1)
+			return null;
+		else{
+			String andOr = "";
+			querryArr = querryArr[1].split("group");
+			querryArr = querryArr[0].split("order");
+			querryArr = querryArr[0].split(" ");
+			querryArrLength = querryArr.length;
+			for (int i = 0; i < querryArrLength; i++)
+				if (querryArr[i].equals("and") || querryArr[i].equals("or"))
+					andOr = andOr + " " + querryArr[i];
+			String[] andOrArr = andOr.split(" ");
+			return andOrArr;
+		}*/
 		return null;
 	}
 
